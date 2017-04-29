@@ -1,0 +1,54 @@
+{
+  "name": "EternityReady",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "link":"rnpm link",
+    "clean": "sudo rm -rf /tmp/react-* && npm run wdl && npm cache clean",
+    "newclear": "rm -rf /tmp/react-* && watchman watch-del-all && rm -rf node_modules/ && npm cache clean && npm i",
+    "wdl": "sudo watchman watch-del /var/www/html/EternityReady && sudo watchman watch-project /var/www/html/EternityReady",
+    "start_clean": "node node_modules/react-native/local-cli/cli.js start --reset-cache",
+    "test": "jest",
+    "prepare_assets": "sudo react-native bundle --entry-file index.android.js --platform android --dev false --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
+    "generate": "cd android && sudo ./gradlew assembleRelease && cd ..",
+    "rv": "adb reverse tcp:8081 tcp:8081",
+    "trace": "/usr/local/android-sdk/platform-tools/systrace/systrace.py --time=15 -o trace.html sched gfx view -a eternityready",
+    "copy_apk": "sudo cp android/app/build/outputs/apk/app-release.apk /var/www/html/",
+    "apk": "npm run prepare_assets && npm run generate && npm run copy_apk"
+  },
+  "dependencies": {
+    "axios": "^0.16.0",
+    "qs": "^6.4.0",
+    "react": "16.0.0-alpha.6",
+    "react-native": "0.43.3",
+    "react-native-fetch-blob": "^0.10.4",
+    "react-native-orientation": "^1.17.0",
+    "react-native-progress": "^3.2.0",
+    "react-native-router-flux": "3.38.0",
+    "react-native-side-menu": "^0.20.1",
+    "react-native-textinput-effects": "^0.3.0",
+    "react-native-vector-icons": "^4.0.1",
+    "react-native-webview-bridge": "^0.33.0",
+    "react-redux": "^5.0.3",
+    "redux": "^3.6.0",
+    "redux-persist": "^4.6.0",
+    "redux-thunk": "^2.2.0"
+  },
+  "devDependencies": {
+    "babel-jest": "19.0.0",
+    "babel-plugin-transform-remove-console": "^6.8.1",
+    "babel-preset-react-native": "1.9.1",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.3",
+    "eslint-plugin-react-native": "^2.3.1",
+    "jest": "19.0.2",
+    "react-test-renderer": "~15.4.1"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
